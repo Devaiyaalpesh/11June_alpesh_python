@@ -1,0 +1,413 @@
+SQL LITE
+----------------------------------------------------------------------------------------
+CREATE TABLE student (ID integer primary key autoincrement, name text, city text);
+
+insert into student(name, city)values('alpesh','rajkot'), ('rajesh','surat'),('mahesh','ahmedabad');
+
+update student SET city='navsari' where id=4;
+
+update student set name = 'rajesh', city = 'ahmedabad' where id=4;
+
+delete from student where id=4;
+
+SELECT*FROM student;
+
+SELECT name FROM student;
+
+SELECT name FROM student WHERE id=2;
+
+SELECT name,city FROM student;
+
+SELECT* FROM student WHERE name like'a%';
+
+SELECT* FROM student WHERE name like'%h';
+
+SELECT* FROM student WHERE name like'%p%';
+
+
+
+
+CREATE TABLE studentinfo (ID INTEGER PRIMARY KEY AUTOINCREMENT, name text, city text);
+
+INSERT INTO studentinfo (name, city)  VALUES
+
+("Alpesh", "Rajkot"),
+
+("Rajesh", "Morbu"),
+
+("Ravi", "Ahmedabbad"),
+
+("Jayesh", "Banglore");
+
+UPDATE studentinfo set name="Rakesh" where id =2;
+
+ALTER TABLE studentinfo ADD COLUMN sub text;
+
+UPDATE studentinfo set sub="python";
+
+ALTER TABLE studentinfo modify COLUMN sub varchar(10);
+
+ALTER TABLE studentinfo drop COLUMN sub;
+
+truncate table studentinfo;        // inbuilt table information delete
+
+DROP table studentinfo;           // complete table delete
+--------------------------------------------------------------------------------------
+
+agrecate fuction
+
+
+create database newdb;
+use newdb;
+
+create table product(pid integer primary key auto_increment,pname varchar(20), price int, qty int);
+
+insert into product(pname, price, qty) values
+("mouse", 200, 10),
+("keyboard", 400, 5),
+("laptop", 2230, 17),
+("charger", 350, 12),
+("motherboard", 3500, 18),
+("Printer", 3800, 8);
+
+select *from product;
+
+select min(price) from product;
+
+select max(price) from product;
+
+select avg(price) from product;
+
+select sum(price) from product;
+
+
+------------------------------------------------------------------------------------------------------
+
+forigen key
+
+
+
+use newdb;
+
+create table products (pid integer primary key auto_increment,
+pname varchar(20), price integer, qty integer);
+
+create table seller(sid integer primary key auto_increment,
+sname varchar(20),
+scity varchar(20),
+pid integer,
+foreign key(pid) references products(pid));
+
+
+insert into products(pname, price, qty) values
+("mouse", 150,20),
+("camera", 1000,10),
+("deskbaord", 450,24),
+("webcam", 350,22),
+("Charger", 150,20);
+
+insert into  seller(sname, scity, pid) values
+("amazon", "Rajkot",1),
+("flipcart", "Surat",2),
+("amazon", "Surat",3),
+("flipcart", "rajkot",4),
+("paytm", "Surat",5),
+("mashoo", "Surat",4);
+
+select * from products;
+
+select * from Seller;
+
+
+
+delete from products where pid =1;
+
+
+select products.pname, products.price,seller.sname
+from products join seller
+on products.pid = seller.sid;
+
+select products.pname, products.price,seller.sname
+from products  right join seller
+on products.pid = seller.sid;
+
+
+select *                                // both table same
+from products  right join seller
+on products.pid = seller.sid;
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+ on datd-20-05-25
+
+
+use newdb;
+create table collage(fid integer primary key  auto_increment,
+fname varchar(20), sub varchar(20));
+
+create table studinfo(id integer primary key auto_increment,
+name varchar(20), city varchar(20));
+
+select * from collage;
+
+select *from studinfo;
+
+insert into collage (fname, sub) value
+('rakesh', 'gujarati'),
+('rajesh', 'maths'),
+('jayesh', 'science'),
+('mahesh', 'python'),
+('alpesh', 'SQL'),
+('askok', 'social science');
+
+insert into studinfo (name, city) value
+('bhavesh', 'rajkot'),
+('ramesh', 'Surat'),
+('mahesh', 'bhuj'),
+('pritesh', 'ahmedabad'),
+('mehul', 'gondal'),
+('mukesh', 'aji'),
+('jayesh', 'morbi');
+
+select *from collage join studinfo on collage.fid=studinfo.id;
+
+select collage.fname, studinfo.name, studinfo.city from collage left join studinfo on collage.fid=studinfo.id;
+
+select c.fname, s.name, s.city from collage as c join studinfo as s on c.fid=s.id;
+
+select c.fname, s.name, s.city from collage as c left join studinfo as s on c.fid=s.id;
+
+select c.fname, s.name, s.city from collage as c right join studinfo as s on c.fid=s.id;
+
+select * from collage as c right join studinfo as s on c.fid=s.id;
+
+---------------------------------------------------------------------------------------------------------------------------------------
+
+creat new db alpesh
+
+
+
+select user from mysql.user;
+
+create user alpesh@127.0.0.1;
+
+grant create on *.* to 'alpesh' @127.0.0.1;
+
+drop user alpesh@127.0.0.1;
+
+grant create, insert, update, select on *.* to 'alpesh' @127.0.0.1;
+
+grant delete on *.* to 'alpesh' @127.0.0.1;
+
+revoke select on *.* from 'alpesh' @127.0.0.1;
+
+
+use anewdb;
+
+create table studinfo1(id integer primary key auto_increment,
+name varchar(20), city text);
+
+insert into studinfo1 (name, city) values
+('Bhagirath', 'Rajkot');
+
+insert into studinfo1 (name, city) values
+('Bhagirath', 'Rajkot');
+
+select * from studinfo1;
+
+update studinfo set name='Rajesh' where id=2;
+
+update studinfo set city='Pune' where id=2;
+
+select *from studinfo;
+---------------------------------------------------------------------------------------------------------------------------------
+
+commite and rollback
+
+use newdb;
+
+create table studinfo1(id integer primary key auto_increment,
+name varchar(20), city text);
+
+insert into studinfo1 (name, city) values
+('Bhagirath', 'Rajkot'),
+('Alpesh', 'bhuj'),
+('jayesh', 'surat');
+commit;
+
+
+select * from studinfo1;
+
+delete from studinfo1 where id=2;
+
+rollback;
+
+----------------------------------------------------------------------------------------------------------------
+
+WITHOUT PARAMATER
+------------------
+delimiter //
+create procedure alldata()
+begin
+select * from courses;
+end //
+delimiter ;
+
+call alldata;
+------------------
+------------------
+WITH PARAMETER
+
+  delimiter //
+ create procedure insertCourses
+ (in c_cname text, 
+ in c_courses_duration text)
+ begin
+ insert into courses(cname, courses_duration)values
+ (c_cname, c_courses_duration);
+ end //
+ delimiter ;
+ 
+ call insertCourses('Computer Engineering','One Month');
+
+===========================
+TRIGGER
+
+create database topsstore;
+
+use topsstore;
+
+create table product(id integer primary key auto_increment, 
+pname varchar(20),
+price real,
+qty integer);
+
+create table backup_product(id integer primary key auto_increment, 
+pname varchar(20),
+price real,
+qty integer);
+
+delimiter //
+create trigger insertProduct
+after insert
+on product
+for each row
+begin
+insert into backup_product(pname, price, qty) values 
+(New.pname, New.price, New.qty);
+end // 
+delimiter ;
+
+select * from product;
+select * from backup_product;
+
+delimiter //
+create trigger log_Pro
+after insert
+on product
+for each row
+begin
+insert into log_product(action, action_at) values 
+("Inserted",now());
+end // 
+delimiter ;
+
+create table log_product(log_id integer primary key auto_increment,
+action varchar(20),
+action_at datetime);
+
+insert into product (pname, price, qty)values
+("Mouse", 320.12,12);
+
+------------------------------------------------------------------------------------------------------------------
+
+create database str;
+
+use str;
+
+create table accounting
+(aid integer primary key auto_increment,aname varchar(20), price real, qty integer);
+
+create table store
+(aid integer primary key auto_increment, aname varchar(20), price real, qty integer);
+
+create table log_inv
+(log_id integer primary key auto_increment, product varchar(20), 
+price real, qty integer,action varchar(20), sell_time datetime);
+
+delimiter //
+create trigger insertinv
+after insert
+on accounting
+for each row
+begin
+insert into store(aname, price, qty) values 
+(New.aname, New.price, New.qty);
+end // 
+delimiter ;
+
+delimiter //
+CREATE TRIGGER updateinv
+AFTER UPDATE ON accounting
+FOR EACH ROW
+BEGIN
+UPDATE store 
+SET aname = NEW.aname, price = NEW.price, qty = NEW.qty
+WHERE aid = NEW.aid;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER Delinv
+AFTER DELETE ON accounting
+FOR EACH ROW
+BEGIN
+DELETE FROM store
+WHERE aid = OLD.aid;
+END //
+DELIMITER ;
+
+delimiter //
+create trigger log_insert
+after insert
+on accounting
+for each row
+begin
+insert into log_inv(product,price, qty,action, sell_time) values 
+(NEW.aname, NEW.price, NEW.qty, 'Inward', now());
+end //
+DELIMITER ;
+
+delimiter //
+create trigger log_Delete
+after delete
+on accounting
+for each row
+begin
+insert into log_inv(action,sell_time) values 
+('Outward',now());
+end // 
+delimiter ;
+
+delimiter //
+create trigger log_Update
+after update
+on accounting
+for each row
+begin
+insert into log_inv(product,price, qty,action, sell_time) values 
+(NEW.aname, NEW.price, NEW.qty, 'Updated', now());
+end // 
+delimiter ;
+
+insert into accounting (aname, price, qty)values
+("Keyboard", 900.12,25),
+("Mouse", 325.00,10),
+("Bread", 25.00,10);
+
+delete from acounting where id=2;
+
+update accounting set aname='Webcam' where id=1;
+
+select * from accounting;
+select * from store;
+select * from log_inv;
